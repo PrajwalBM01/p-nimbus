@@ -1,6 +1,7 @@
 'use client';
 
 import { useChat } from '@ai-sdk/react';
+import { CodeExecutor } from 'react-exe';
 import Markdown from 'react-markdown';
 
 export default function Chat() {
@@ -11,6 +12,8 @@ export default function Chat() {
         <div key={message.id} className={`${message.role === "user" && 'flex justify-end items-end text-end'} whitespace-pre-wrap`}>
           <div>
             {message.role === 'user' ? 'User: ' : 'AI: '}
+          {console.log(message.parts)}
+          {console.log(message.annotations)}
             {message.parts.map((part, i) => {
               switch (part.type) {
                 case 'text':
@@ -18,6 +21,11 @@ export default function Chat() {
               }
             })}
         </div>
+        {message.annotations && 
+        <div>
+          
+        </div>
+        }
         </div>
       ))}
 

@@ -37,5 +37,10 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 ## Journey:
+- Started this project using nextjs and gemini ai with open ai compatable sdk. tried that and got some good results, but while searching for more optimal ai models and sdk i came across vercel's AI SDK.
+- started reading the docs https://ai-sdk.dev/ and saw that it. The ai sdk is well documented and i found out that it is easier to use this sdk where i can switch between ai models and ai providers.
+- And also the vercel ai sdk make easy access to message history. And make the server and client connection easy.
+- I have levaraged the google notbookllm to ask some doubts in the docs. ( uploaded the doc website )
 - intilized ai sdk with gemini 2.5 model, create a .env file with your gemnini api key.
-- using tool calling method to call weather tool which intern will caall weather api and get thje weather detals of any provided location.
+- using tool calling method to call weather tool which internally will call weather api and get the weather details of any provided location.
+- And also i have used genrateObject funtion to call LLM and refactor or formate the output from the weather api to get a precise formated object.

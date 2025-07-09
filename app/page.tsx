@@ -4,7 +4,7 @@ import { useChat } from '@ai-sdk/react';
 import Markdown from 'react-markdown';
 
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { messages, input, handleInputChange, handleSubmit, status, error, reload } = useChat();
   return (
     <div className="flex flex-col w-full max-w-2xl py-24 mx-auto stretch">
       {messages.map(message => (
@@ -20,6 +20,21 @@ export default function Chat() {
         </div>
         </div>
       ))}
+
+      {(status === 'submitted' || status === 'streaming') && (
+        <div className="text-center py-2 text-gray-500">
+          Generating...
+        </div>
+      )}
+
+      {error && (
+        <div className="text-center py-2 text-red-500">
+          An error occurred.
+          <button type="button" onClick={() => reload()} className="ml-2 px-3 py-1 bg-red-600 text-white rounded">
+            Retry
+          </button>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit}>
         <input

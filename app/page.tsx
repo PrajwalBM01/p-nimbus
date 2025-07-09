@@ -1,26 +1,29 @@
 'use client';
 
 import { useChat } from '@ai-sdk/react';
+import Markdown from 'react-markdown';
 
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat();
   return (
-    <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+    <div className="flex flex-col w-full max-w-2xl py-24 mx-auto stretch">
       {messages.map(message => (
-        <div key={message.id} className="whitespace-pre-wrap">
-          {message.role === 'user' ? 'User: ' : 'AI: '}
-          {message.parts.map((part, i) => {
-            switch (part.type) {
-              case 'text':
-                return <div key={`${message.id}-${i}`}>{part.text}</div>;
-            }
-          })}
+        <div key={message.id} className={`${message.role === "user" && 'flex justify-end items-end text-end'} whitespace-pre-wrap`}>
+          <div>
+            {message.role === 'user' ? 'User: ' : 'AI: '}
+            {message.parts.map((part, i) => {
+              switch (part.type) {
+                case 'text':
+                  return <Markdown key={`${message.id}-${i}`}>{part.text}</Markdown>;
+              }
+            })}
+        </div>
         </div>
       ))}
 
       <form onSubmit={handleSubmit}>
         <input
-          className="fixed dark:bg-zinc-900 bottom-0 w-full max-w-md p-2 mb-8 border border-zinc-300 dark:border-zinc-800 rounded shadow-xl"
+          className="fixed dark:bg-zinc-900 bottom-0 w-full max-w-2xl p-2 mb-8 border border-zinc-300 dark:border-zinc-800 rounded shadow-xl"
           value={input}
           placeholder="Say something..."
           onChange={handleInputChange}

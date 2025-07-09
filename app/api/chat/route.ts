@@ -7,14 +7,18 @@ const google = createGoogleGenerativeAI({
 
 import { streamText } from 'ai';
 
-
 export async function POST(req: Request) {
-  const { messages } = await req.json();
-
-  const result = streamText({
-    model: google('gemini-2.5-pro'),
-    messages,
-  });
-
-  return result.toDataStreamResponse();
+    const {messages} = await req.json();
+    console.log(messages)
+    try{
+        const result = streamText({
+            model: google('gemini-2.5-flash'),
+            messages,
+          });
+        
+          return result.toDataStreamResponse();
+    }catch(e){
+        console.log(e)
+        return "somthing went wrong"
+    }
 }

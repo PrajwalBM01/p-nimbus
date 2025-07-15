@@ -1,5 +1,53 @@
 @import "tailwindcss";
 
+@theme inline{
+  --color-background : var(--background);
+  --color-backBackground : var(--backBackground)  ;
+  --color-textColor : var(--textColor);
+  --color-borderColor : var(--borderColor);
+}
+
+html.dark  {
+  --background : rgba(0,0,0);
+  --backBackground : rgb(27, 27, 27);
+  --borderColor : rgb(46, 46, 46);
+  --textColor : rgba(255,255,255);
+}
+
+html.light {
+  --background : rgb(255, 255, 255);
+  --backBackground : rgb(228, 228, 228);
+  --borderColor : rgb(194, 194, 194);
+  --textColor : rgba(0,0,0);
+}
+
+html.dynamic {
+  --textColor : rgb(255, 255, 255);
+  --borderColor : rgb(209, 208, 208);
+}
+
+.bg-background-dynamic {
+  background: linear-gradient(
+    var(--weatherColor),
+    white
+  );
+  transition: background 0.3s ease;
+}
+
+.rain-drop {
+  background: linear-gradient(to bottom, rgba(13,52,58,1) 0%, rgba(255,255,255,0.6) 100%);
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  from {
+    transform: translateY(-100vh);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+
 ::-webkit-scrollbar {
   width: 4px;
 
@@ -12,26 +60,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #2e2e2e;
-}
-
-
-@theme inline{
-  --color-background : var(--background);
-  --color-backBackground : var(--backBackground)  ;
-  --color-textColor : var(--textColor);
-  --color-borderColor : var(--borderColor);
-}
-
-.dark {
-  --background : rgba(0,0,0);
-  --backBackground : rgb(27, 27, 27);
-  --borderColor : rgb(46, 46, 46);
-  --textColor : rgba(255,255,255);
-}
-
-.light {
-  --background : rgb(255, 255, 255);
-  --backBackground : rgb(228, 228, 228);
-  --borderColor : rgb(194, 194, 194);
-  --textColor : rgba(0,0,0);
 }

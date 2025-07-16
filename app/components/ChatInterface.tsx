@@ -15,7 +15,6 @@ export default function Chat() {
         {messages.map(message => (
             <div key={message.id} className={`${message.role === "user" && 'flex justify-end items-end text-end'} whitespace-pre-wrap px-4`}>
                 <div className={`${message.role === 'user' && 'px-3 py-1 rounded-2xl bg-backBackground'} ${(message.role === 'user' && theme==="dynamic")&& 'border'} my-2`}>
-                    {console.log(message.parts)}
                     {message.parts.map((part, i) => {
                     switch (part.type) {
                         case 'text':
@@ -33,7 +32,7 @@ export default function Chat() {
                             }
                             return (
                               <div key={message.id}>
-                              <LiveProvider code={`${code}`}>
+                              <LiveProvider code={code}>
                                 <LiveError />
                                 <LivePreview />
                               </LiveProvider>

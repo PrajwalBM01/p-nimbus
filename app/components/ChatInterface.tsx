@@ -2,6 +2,7 @@
 
 import { useChat } from '@ai-sdk/react';
 import { IconRobot } from '@tabler/icons-react';
+import { LiveProvider, LiveEditor, LiveError, LivePreview } from "react-live";
 import { useTheme } from 'next-themes';
 import Markdown from 'react-markdown';
 
@@ -23,12 +24,43 @@ export default function Chat() {
                 </div>
             </div>
         ))}
+        <LiveProvider code={`function UiCard() {
+          return (
+            <div className="max-w-xl rounded-2xl shadow-md p-4 bg-red-400">
+              <div className="flex justify-between items-center mb-4">
+                <div>
+                  <div className="text-lg font-semibold text-gray-800">Davangere, Karnataka</div>
+                  <div className="text-sm text-gray-500">July 16, 2025</div>
+                </div>
+                <img src="https://cdn.weatherapi.com/weather/64x64/day/353.png" alt="Light rain shower" className="w-16 h-16" />
+              </div>
+              <div className="flex items-center mb-4">
+                <div className="text-5xl font-bold text-gray-900 mr-2">27°C</div>
+                <div className="text-2xl text-gray-600">(80°F)</div>
+              </div>
+              <div className="text-lg text-gray-700 mb-4">Light rain showers</div>
+              <div className="grid grid-cols-2 gap-2 text-gray-600 text-sm">
+                <div className="flex items-center">
+                  <span className="mr-2">🌬️</span>
+                  <span>Wind: West at 14 mph</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="mr-2">💧</span>
+                  <span>Humidity: 76%</span>
+                </div>
+              </div>
+            </div>
+          );
+        }`}>
+            <LiveError />
+            <LivePreview />
+        </LiveProvider>
         </div> 
         <div className='fixed bottom-0 w-full left-0 right-0'>
                 <div className='flex justify-center items-center mb-8'>
                     <form onSubmit={handleSubmit}>
                         <textarea
-                            className={`${theme==="dynamic" && 'text-black  backdrop-brightness-95'} border border-borderColor resize-none w-2xl field-sizing-content p-2  bg-backBackground rounded-2xl backdrop-blur-md shadow-md focus:outline-none`} 
+                            className={`${theme==="dynamic" && 'text-black  backdrop-brightness-95'} border border-borderColor resize-none w-2xl field-sizing-content p-2  bg-backBackground rounded-2xl shadow-md focus:outline-none`} 
                             value={input}
                             placeholder="Say something..."
                             onChange={handleInputChange}

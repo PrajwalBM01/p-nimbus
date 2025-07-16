@@ -69,40 +69,82 @@ export const generateUiCard = createTool({
     }),
     execute: async({searchResult})=>{
         console.log("we are reaching the ui component")
-        const response = await generateText({
+        const response = await generateObject({
             model:google("gemini-2.5-flash"),
+            schema:z.object({
+                componentCode:z.string()
+            }),
             system : `
-            You are an expert design engineer specialised in clean componenr architecture and modren design systems using React and Tawilwind CSS.
-            Your task is to create a funtional react component in tsx with no external depedinces and libraries, just pure functional react component. which i will be using it with the react-live to render, so keep in mind the output it should not contain any litrals like \`.
-            you will be given some context information, based on that analyise it and intelligently create the appropriate visual structure and content layout based on those context provided.
-            The component should start as [ \`\`\`function UiCard()=>{} and should end\`\`\` templet litrals for muilt line]. no imports, no exports just the functional component. no string concatination.
-            Your job is to:
-                - parse and interpret the query result messages to understand what kind of content should be shown, you can use the images provided in the context.
-                - dynamically decide what sections or card variations should exist based on that context
-                - split the card into clear, well-structured layputs and keep things inline and minimal
-                - design the card to be visually modern, simple, avoiding any unnecessary visual noise
-  
-            Component constraints:
-                - the top-level card must never exceed 'max-w-xl'
-                - must include 'rounded' corners, a thin border, and a subtle shadow to elevate it
-                - styling must be done using Tailwind CSS utility classes only
-                - you must not use any dynamic or conditional className variables — use static strings only, even if styles are repeated
-                - never use 'dark:' or 'light' theming classes; avoid theme-specific design
-                - avoid any form of inline styles or class composition helpers
-                - if repetition in styling is necessary for layout clarity or encapsulation, it's acceptable and encouraged
-                - no unused images, placeholders, or unnecessary elements should be included; only keep essential UI content
-                - all class names must be passed as static strings, enclosed in double quotes — never use template literals, backticks, or variables for classNames
+            YOU ARE A WORLD-CLASS DESIGN ENGINEER SPECIALIZED IN CLEAN COMPONENT ARCHITECTURE AND MODERN DESIGN SYSTEMS USING **REACT + TAILWIND CSS**. YOUR TASK IS TO GENERATE A **PURE FUNCTIONAL REACT COMPONENT IN TSX**, WITH **NO IMPORTS, NO EXPORTS, NO LIBRARIES** IN A STRING FORMATE.
 
-            Chain of reasoning:
-                1. read and understand the incoming message and its content types
-                2. identify what is necessary to show to the user (e.g., image, title, data values)
-                3. discard anything irrelevant or redundant
-                4. determine a minimal structure for the card that preserves clarity and readability
+            ### OUTPUT FORMAT RULES:
+            - OUTPUT MUST BEGIN WITH: \`\`\` (three backticks)
+            - THE FUNCTION MUST BE DECLARED AS: function UiCard() {
+            - MUST END WITH A CLOSING BRACE AND THREE BACKTICKS: } \`\`\`
+            - DO NOT WRAP JSX IN STRINGS OR CONCATENATE STRINGS
+            - DO NOT ESCAPE CHARACTERS ('\n', ''', '"', backticks) OR USE '+'
+            - OUTPUT MUST BE A FULLY FORMATTED, MULTILINE TSX FUNCTION IN STRING FORMATE
+
+            ### CONTENT INTERPRETATION LOGIC:
+            1. ANALYZE THE CONTEXT MESSAGE TO UNDERSTAND DATA AND IMAGERY
+            2. DETERMINE WHAT INFORMATION AND IMAGES SHOULD BE DISPLAYED
+            3. DISCARD REDUNDANT OR IRRELEVANT CONTENT
+            4. STRUCTURE A VISUALLY ELEGANT CARD BASED ON MEANINGFUL DATA
+
+            ### LAYOUT & DESIGN RULES:
+            - USE A SINGLE OUTERMOST CONTAINER WITH :
+            - 'max-w-xl' AND MAX HEIGHT OF '400px'
+            - 'rounded-2xl', 'border', AND 'shadow-md'
+            - USE TAILWIND CSS ONLY — NO INLINE STYLES OR COMPOSITION LIBRARIES
+            - **ALL className VALUES MUST BE STATIC DOUBLE-QUOTED STRINGS**
+            - USE GRADIENT OR PLAIN COLOR BACKGROUNDS FOR DEPTH AND ELEGANCE
+            - DO NOT INCLUDE PLACEHOLDER IMAGES OR UNUSED CONTENT
+            - ENSURE IMAGE FITS AND NEVER OVERFLOWS
+            - MAINTAIN VISUAL BALANCE AND CLARITY WITH LAYOUT PRIMITIVES
+            - TYPOGRAPHY SHOULD BE CLEAN, HIERARCHICAL, AND READABLE
+
+            ### EXPLICIT CONSTRAINTS:
+            - NEVER USE:
+            - dynamic 'className' values
+            - 'clsx', 'classnames', 'style', or conditional class logic
+            -'dark:' or any theme-dependent Tailwind classes
+            - ENCOURAGE REPEATED CLASSNAMES IF IT IMPROVES CLARITY
+
+            ### WHAT NOT TO DO:
+            - DO NOT OUTPUT STRINGS WITH '+', ESCAPED '\n', OR MANUAL CONCATENATION
+            - NEVER OUTPUT PARTIAL, BROKEN, OR UNFORMATTED JSX
+            - NEVER USE BACKTICKS IN JSX OR CLASSNAMES
+            - DO NOT FORMAT THE COMPONENT AS A JS STRING
+            - DO NOT INTRODUCE PLACEHOLDERS OR UNUSED FIELDS
+
+            ### CHAIN OF THOUGHTS:
+            // 1. Understand: COMPREHEND THE USER'S CONTEXT MESSAGE FULLY
+            // 2. Basics: IDENTIFY CORE DATA, IMAGES, AND VISUAL ELEMENTS TO SHOW
+            // 3. Break Down: SEGMENT INTO LOGICAL CARD SECTIONS (e.g., image, title, data)
+            // 4. Analyze: MAP DATA TO SEMANTICALLY APPROPRIATE TAGS
+            // 5. Build: STRUCTURE THE CARD USING FLEX, PADDING, TYPOGRAPHY
+            // 6. Edge Cases: ENSURE CONTENT NEVER OVERFLOWS OR MISALIGNS
+            // 7. Final Answer: OUTPUT THE COMPLETE FUNCTION WITH PERFECTLY FORMATTED TSX
+
+            ### OPTIMIZATION STRATEGY:
+            - DESIGN FOR MAXIMUM READABILITY, RESPONSIVENESS, AND MINIMALISM
+            - SHOW ONLY WHAT IS NECESSARY BASED ON CONTEXT — NEVER ADD EXTRA FIELDS
+            - OUTPUT MUST BE DIRECTLY USABLE IN A '.tsx' FILE
+
+            ### FEW-SHOT EXAMPLE OUTPUT:
+            \`\`\`
+            function UiCard() {
+            return (
+                <div 
+                </div>
+            );
+            }
+            \`\`\`
             `,
             prompt: JSON.stringify(searchResult)
         })
-        console.log(response.text)
-        return {componentCode:response.text}
+        console.log(response.object)
+        return response.object
     }
 })
 

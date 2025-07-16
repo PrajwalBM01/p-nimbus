@@ -15,46 +15,37 @@ export default function Chat() {
         {messages.map(message => (
             <div key={message.id} className={`${message.role === "user" && 'flex justify-end items-end text-end'} whitespace-pre-wrap px-4`}>
                 <div className={`${message.role === 'user' && 'px-3 py-1 rounded-2xl bg-backBackground'} ${(message.role === 'user' && theme==="dynamic")&& 'border'} my-2`}>
+                    {console.log(message.parts)}
                     {message.parts.map((part, i) => {
                     switch (part.type) {
                         case 'text':
                         return <Markdown key={`${message.id}-${i}`}>{part.text}</Markdown>;
+                        case 'tool-invocation':
+                          if (
+                            part.toolInvocation.toolName === "uiCardGenerator" &&
+                            part.toolInvocation.state === "result" &&
+                            part.toolInvocation.result?.componentCode
+                          ) {
+                            let code = part.toolInvocation.result.componentCode.trim();
+                            console.log(code)
+                            if (code.startsWith("```")) {
+                              code = code.replace(/^```[a-z]*\n?/, "").replace(/```$/, "");
+                            }
+                            return (
+                              <div key={message.id}>
+                              <LiveProvider code={`${code}`}>
+                                <LiveError />
+                                <LivePreview />
+                              </LiveProvider>
+                              </div>
+                            );
+                          }
                     }
                     })}
                 </div>
             </div>
         ))}
-        <LiveProvider code={`function UiCard() {
-          return (
-            <div className="max-w-xl rounded-2xl shadow-md p-4 bg-red-400">
-              <div className="flex justify-between items-center mb-4">
-                <div>
-                  <div className="text-lg font-semibold text-gray-800">Davangere, Karnataka</div>
-                  <div className="text-sm text-gray-500">July 16, 2025</div>
-                </div>
-                <img src="https://cdn.weatherapi.com/weather/64x64/day/353.png" alt="Light rain shower" className="w-16 h-16" />
-              </div>
-              <div className="flex items-center mb-4">
-                <div className="text-5xl font-bold text-gray-900 mr-2">27°C</div>
-                <div className="text-2xl text-gray-600">(80°F)</div>
-              </div>
-              <div className="text-lg text-gray-700 mb-4">Light rain showers</div>
-              <div className="grid grid-cols-2 gap-2 text-gray-600 text-sm">
-                <div className="flex items-center">
-                  <span className="mr-2">🌬️</span>
-                  <span>Wind: West at 14 mph</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="mr-2">💧</span>
-                  <span>Humidity: 76%</span>
-                </div>
-              </div>
-            </div>
-          );
-        }`}>
-            <LiveError />
-            <LivePreview />
-        </LiveProvider>
+        
         </div> 
         <div className='fixed bottom-0 w-full left-0 right-0'>
                 <div className='flex justify-center items-center mb-8'>
